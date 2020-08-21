@@ -1,0 +1,23 @@
+schema {
+  query: WeatherQueries
+}
+
+directive @cost(
+  complexity: Int! = 1
+  multipliers: [MultiplierPath!]
+) on FIELD_DEFINITION
+scalar DateTime
+
+scalar MultiplierPath
+
+type WeatherForecast {
+  date: DateTime!
+  summary: String
+  temperatureC: Int!
+  temperatureF: Int!
+}
+
+type WeatherQueries {
+  weatherForecasts: [WeatherForecast]
+}
+
