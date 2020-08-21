@@ -1,0 +1,23 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+  query: WeatherQueries
+}
+
+type WeatherForecast {
+  date: DateTime!
+  summary: String!
+  temperatureC: Int!
+  temperatureF: Int!
+}
+
+type WeatherQueries {
+  weatherForecasts: [WeatherForecast!]!
+}
+
+
+"The multiplier path scalar represents a valid GraphQL multiplier path string."
+scalar MultiplierPath
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime

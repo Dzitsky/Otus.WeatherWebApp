@@ -1,12 +1,11 @@
 overwrite: true
-schema: "http://localhost:5000/graphql"
-documents: "src/**/*.js(x)?"
-
+schema: "http://localhost:5000/graphql/"
+documents: "src/**/*.tsx"
 generates:
-  src/dataProviders/templateServiceTypes.ts:
-    config:
-      preResolveTypes: true
+  src/generated/graphql.ts:
     plugins:
       - "typescript"
       - "typescript-operations"
-      - "fragment-matcher"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

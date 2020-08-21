@@ -14,6 +14,7 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
+  // @ts-ignore
   <BrowserRouter basename={baseUrl}>
     <ApolloProvider client={client}>
       <App/>

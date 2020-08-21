@@ -1,5 +1,6 @@
-import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery } from "@apollo/client";
+import React from "react";
+import { GetWeatherForecastsQuery } from "../generated/graphql";
 
 const WEATHER_FORECASTS = gql`
   query GetWeatherForecasts {
@@ -13,13 +14,13 @@ const WEATHER_FORECASTS = gql`
 `;
 
 export const FetchData = () => {
-  const { loading, error, data } = useQuery(WEATHER_FORECASTS);
+  const { loading, error, data } = useQuery<GetWeatherForecastsQuery>(WEATHER_FORECASTS);
 
   if (loading) {
     return <p><em>Loading...</em></p>;
   }
 
-  if (error) {
+  if (error || !data) {
     return <p><em>Error :(</em></p>;
   }
 
@@ -44,7 +45,7 @@ export const FetchData = () => {
             <td>{forecast.temperatureC}</td>
             <td>{forecast.temperatureF}</td>
             <td>{forecast.summary}</td>
-          </tr>
+          </tr>,
         )}
         </tbody>
       </table>
