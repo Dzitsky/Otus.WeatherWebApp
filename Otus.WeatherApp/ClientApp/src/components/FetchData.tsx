@@ -1,27 +1,36 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
-import { GetWeatherForecastsQuery } from "../generated/graphql";
+import {
+  GetWeatherForecastsQuery,
+  GetWeatherForecastsQueryVariables,
+} from "../generated/graphql";
 
 const WEATHER_FORECASTS = gql`
-  query GetWeatherForecasts {
-    weatherForecasts {
-      date
-      summary
-      temperatureC
-      temperatureF
+  query GetWeatherForecasts($first: PaginationAmount) {
+    weatherForecast(first: $first) {
+      nodes {
+        summary
+        temperatureC
+        temperatureF
+      }
     }
   }
 `;
 
 export const FetchData = () => {
-  const { loading, error, data } = useQuery<GetWeatherForecastsQuery>(WEATHER_FORECASTS);
+  const { loading, error, data } = useQuery<GetWeatherForecastsQuery, GetWeatherForecastsQueryVariables>(WEATHER_FORECASTS,
+    {
+      variables: {
+        first: 10,
+      },
+    });
 
   if (loading) {
     return <p><em>Loading...</em></p>;
   }
 
   if (error || !data) {
-    return <p><em>Error :(</em></p>;
+    return <p><em>Error {error?.message} :(</em></p>;
   }
 
   return (
@@ -39,12 +48,12 @@ export const FetchData = () => {
         </tr>
         </thead>
         <tbody>
-        {data.weatherForecasts.map(forecast =>
-          <tr key={forecast.date}>
-            <td>{forecast.date}</td>
-            <td>{forecast.temperatureC}</td>
-            <td>{forecast.temperatureF}</td>
-            <td>{forecast.summary}</td>
+        {data.weatherForecast?.nodes?.map(forecast =>
+          <tr>
+            <td>ДАТА</td>
+            <td>{forecast?.temperatureC}</td>
+            <td>{forecast?.temperatureF}</td>
+            <td>{forecast?.summary}</td>
           </tr>,
         )}
         </tbody>

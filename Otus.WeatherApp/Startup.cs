@@ -1,5 +1,6 @@
 using HotChocolate;
 using HotChocolate.AspNetCore;
+using HotChocolate.AspNetCore.Voyager;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -27,13 +28,24 @@ namespace Otus.WeatherApp
 
       // In production, the React files will be served from this directory
       services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
-      
+
       services.AddSingleton<IWeatherService, WeatherService>();
 
-      services.AddGraphQL(sp => SchemaBuilder.New()
-        .AddServices(sp)
-        .AddQueryType<WeatherQueries>()
-        .Create());
+      services
+        .AddGraphQL(sp => SchemaBuilder.New()
+          
+          .AddQueryType<WeatherQueries>()
+          
+          // .AddMutationType<WeatherQueries>()
+          // .AddSubscriptionType<WeatherQueries>()
+          // .AddType<>()
+          
+          .AddAuthorizeDirectiveType()
+          .Create()
+        );
+
+      services.AddAuthentication();
+      services.AddAuthorization();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,15 +61,19 @@ namespace Otus.WeatherApp
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
       }
-      
+
       app.UseStaticFiles();
       app.UseSpaStaticFiles();
 
+      app.UseAuthentication();
+
       app.UseRouting();
-      
+      app.UseAuthorization();
+
       app
         .UseGraphQL("/graphql")
-        .UsePlayground("/graphql");
+        .UsePlayground("/graphql")
+        .UseVoyager("/graphql");
 
       app.UseEndpoints(endpoints =>
       {

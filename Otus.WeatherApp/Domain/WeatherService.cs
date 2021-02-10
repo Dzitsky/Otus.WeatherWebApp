@@ -11,7 +11,7 @@ namespace Otus.WeatherApp.Domain
       "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    private static readonly List<WeatherForecast> WeatherForecasts;
+    private static readonly IEnumerable<WeatherForecast> WeatherForecasts;
 
     static WeatherService()
     {
@@ -19,16 +19,16 @@ namespace Otus.WeatherApp.Domain
       WeatherForecasts =
         Enumerable
           .Range(1, 5)
-          .Select(index => new WeatherForecast
+          .Select(index => new WeatherForecast()
           {
-            Date = DateTime.Now.AddDays(index),
+            ForecastDate = DateTime.Now.AddDays(index),
             TemperatureC = rng.Next(-20, 55),
             Summary = Summaries[rng.Next(Summaries.Length)]
           })
           .ToList();
     }
 
-    public IEnumerable<WeatherForecast> GetWeather()
+    public IEnumerable<WeatherForecast> GetWeatherForecast()
     {
       return WeatherForecasts;
     }

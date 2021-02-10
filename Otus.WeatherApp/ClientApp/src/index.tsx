@@ -10,6 +10,7 @@ const client = new ApolloClient({
   uri: 'https://localhost:5001/graphql',
   cache: new InMemoryCache()
 });
+
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 

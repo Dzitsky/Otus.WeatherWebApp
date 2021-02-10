@@ -4,6 +4,6 @@ namespace Otus.WeatherApp.Domain
 {
   public interface IWeatherService
   {
-    IEnumerable<WeatherForecast> GetWeather();
+    IEnumerable<WeatherForecast> GetWeatherForecast();
   }
 }
